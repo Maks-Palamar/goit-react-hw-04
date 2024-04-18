@@ -22,6 +22,6 @@ export const fetchCards = async (query, page) => {
     });
     
     const hits = response.data.results;
-    console.log("rspns", hits);
+    // console.log("rspns", hits);
     return hits;
 };

@@ -42,7 +42,7 @@ function App() {
     try {
       setLoading(true);
       const reply = await fetchCards(query, page);
-      console.log("reply", reply);
+      // console.log("reply", reply);
       setCards(prevCards => [...prevCards, ...reply]);
       setTotalPages(reply.total_pages);
     } catch (error) {
@@ -61,7 +61,7 @@ const handleLoadClick = () => {
 }
   
   const openModal = (cardData) => {
-    console.log('data', cardData);
+    // console.log('data', cardData);
     setModalIsOpen(true);
     setOneCard(cardData);
   }
