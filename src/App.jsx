@@ -7,6 +7,7 @@ import Loader from './components/Loader/Loader'
 import ErrorMessage from './components/ErrorMessage/ErrorMessage'
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn'
 import ImageModal from './components/ImageModal/ImageModal'
+import ScrollUp from './components/ScrollUp/ScrollUp'
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -26,6 +27,7 @@ function App() {
       setLoading(true);
       setOneCard(null);
       setModalIsOpen(false);
+      scrollToTop();
     } catch (error) {
       setError(true);
     } finally {
@@ -64,6 +66,10 @@ const handleLoadClick = () => {
     setOneCard(cardData);
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
     <>
       <SearchBar onSubmit={handleSubmit} />
@@ -72,6 +78,7 @@ const handleLoadClick = () => {
       {error && <ErrorMessage />}
       {cards.length > 0 && totalPages !== page && !loading && <LoadMoreBtn onClick={handleLoadClick} />}
       {cards.length > 0 && <ImageModal modalData={oneCard} modalIsOpen={modalIsOpen} closeModal={() => setModalIsOpen(false)}></ImageModal>}
+      {cards.length > 0 && <ScrollUp />}
     </>
   )
 }

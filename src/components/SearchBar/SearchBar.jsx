@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import css from './SearchBar.module.css'
 
@@ -14,16 +14,37 @@ const SearchBar = ({ onSubmit }) => {
         onSubmit(query)
         console.log(query);
         form.reset()
-  }
+    }
+    
+    const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+    const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+
+    useEffect(() => {
+        const handleScroll = () => {
+        const currentScrollPos = window.pageYOffset;
+        const isScrollingUp = prevScrollPos > currentScrollPos;
+
+        setIsHeaderVisible(isScrollingUp);
+
+        setPrevScrollPos(currentScrollPos);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, [prevScrollPos]);
 
   return (
-      <header className={css.header}>
+      <header className={css.header}
+      style={{ position: 'fixed', top: isHeaderVisible ? 0 : '-100px', left: 0, width: '100%', transition: 'top 0.3s ease-in-out', backgroundColor: 'lightgray' }}>
         <div><Toaster position="bottom-center" reverseOrder={false}/></div>
         <form onSubmit={formSubmit} className={css.form}>
             <input className={css.formInpt}
             type="text"
-            // autocomplete="off"
-            // autofocus
+            autoComplete="off"
+            autoFocus
                   placeholder="Search images and photos"
                   name="query"
             />
